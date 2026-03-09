@@ -2,14 +2,14 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-    <title>Забота · Личный кабинет (полная версия)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Забота · Личный кабинет (все разделы)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* === ОСНОВНЫЕ СТИЛИ (без изменений, все классы сохранены) === */
+        /* === ПОЛНЫЕ СТИЛИ (с адаптацией) === */
         * {
             margin: 0;
             padding: 0;
@@ -38,6 +38,8 @@
             flex-direction: column;
             min-height: 600px;
         }
+
+        /* ШАПКА ПРОФИЛЯ */
         .top-bar {
             display: flex;
             align-items: center;
@@ -63,6 +65,7 @@
             font-size: 2.5rem;
             box-shadow: 0 12px 18px -6px #B5D1E8;
             border: 3px solid white;
+            flex-shrink: 0;
         }
         .name-age h1 {
             font-size: 1.8rem;
@@ -99,7 +102,7 @@
             background-color: #FCF9F7;
         }
 
-        /* боковое меню */
+        /* БОКОВОЕ МЕНЮ (для планшетов и десктопов) */
         .sidebar {
             width: 250px;
             background-color: #f5efe9;
@@ -134,6 +137,7 @@
         .nav-item.active i { color: #4a3f6e; }
         .nav-item:hover:not(.active) { background-color: #f0e4dc; }
 
+        /* КОНТЕНТНАЯ ОБЛАСТЬ */
         .content-area {
             flex: 1;
             padding: 28px 30px;
@@ -142,7 +146,7 @@
             transition: 0.2s;
         }
 
-        /* карточки */
+        /* ОБЩИЕ КАРТОЧКИ */
         .card {
             background: white;
             border-radius: 36px;
@@ -161,7 +165,7 @@
             gap: 8px;
         }
 
-        /* главная */
+        /* ГЛАВНАЯ */
         .compare-widget {
             background: #f3ede7;
             border-radius: 40px;
@@ -206,12 +210,15 @@
             font-size: 1.2rem;
             font-weight: 700;
             color: #314e63;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .activity-horizontal {
             display: flex;
             gap: 16px;
             overflow-x: auto;
             padding: 8px 4px 20px 4px;
+            -webkit-overflow-scrolling: touch;
         }
         .activity-card {
             background: white;
@@ -235,6 +242,7 @@
             padding: 16px 28px;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 12px;
             background: #B5D1E8;
             color: #2a4052;
@@ -242,6 +250,9 @@
             cursor: pointer;
             transition: 0.1s;
             border: 1px solid #ffffff80;
+            text-align: center;
+            white-space: normal;
+            word-break: break-word;
         }
         .btn-secondary {
             background: #F7E1D7;
@@ -250,7 +261,7 @@
         }
         .btn:hover { transform: scale(0.98); filter: brightness(0.98); }
 
-        /* дневник */
+        /* ДНЕВНИК */
         .journal-feed { display: flex; flex-direction: column; gap: 20px; }
         .journal-entry {
             background: #FAF4EF;
@@ -259,19 +270,20 @@
             border: 1px solid #ffffff;
             box-shadow: 0 6px 14px #eeddce;
         }
-        .entry-header { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+        .entry-header { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; flex-wrap: wrap; }
         .entry-icon {
             font-size: 2rem; width: 48px; height: 48px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px #d9c7b8;
         }
         .entry-meta { font-weight: 600; color: #4f5f6e; }
-        .entry-content { margin: 10px 0 8px 0; font-size: 1.1rem; padding-left: 62px; }
-        .entry-photo img { max-width: 100%; border-radius: 30px; margin-top: 12px; border: 3px solid white; }
+        .entry-content { margin: 10px 0 8px 0; font-size: 1.1rem; padding-left: 62px; word-break: break-word; }
+        .entry-photo img { max-width: 100%; border-radius: 30px; margin-top: 12px; border: 3px solid white; height: auto; }
         .entry-audio {
-            background: #EADDCf; border-radius: 60px; padding: 12px 20px; display: flex; align-items: center; gap: 16px; margin-left: 62px; margin-top: 10px;
+            background: #EADDCf; border-radius: 60px; padding: 12px 20px; display: flex; align-items: center; gap: 16px; margin-left: 62px; margin-top: 10px; flex-wrap: wrap;
         }
         .journal-add { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 30px; }
+        .journal-add .btn { flex: 1 1 auto; }
 
-        /* сводка */
+        /* СВОДКА */
         .summary-period-tabs {
             display: flex;
             gap: 16px;
@@ -280,6 +292,7 @@
             padding: 12px;
             border-radius: 60px;
             width: fit-content;
+            flex-wrap: wrap;
         }
         .period-tab {
             padding: 12px 28px;
@@ -290,6 +303,7 @@
             cursor: pointer;
             box-shadow: 0 4px 8px #e3d5cb;
             transition: 0.1s;
+            white-space: nowrap;
         }
         .period-tab.active {
             background: #E0D1F0;
@@ -311,15 +325,8 @@
             gap: 8px;
             border: 1px solid white;
         }
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #2C3E50;
-        }
-        .stat-label {
-            color: #718699;
-            font-weight: 600;
-        }
+        .stat-value { font-size: 2.5rem; font-weight: 700; color: #2C3E50; }
+        .stat-label { color: #718699; font-weight: 600; }
         .summary-timeline {
             background: #f9f2ec;
             border-radius: 48px;
@@ -330,12 +337,13 @@
             gap: 24px;
             padding: 16px 0;
             border-bottom: 1px solid #edd9cd;
+            flex-wrap: wrap;
         }
         .timeline-date { min-width: 80px; font-weight: 700; color: #7f6b5e; }
-        .timeline-desc { flex: 1; color: #2e3b47; }
-        .timeline-badge { background: #E0D1F0; border-radius: 40px; padding: 4px 16px; font-size: 0.8rem; font-weight: 700; color: #3e3f5e; }
+        .timeline-desc { flex: 1; color: #2e3b47; word-break: break-word; }
+        .timeline-badge { background: #E0D1F0; border-radius: 40px; padding: 4px 16px; font-size: 0.8rem; font-weight: 700; color: #3e3f5e; white-space: nowrap; }
 
-        /* карта развития (чеклист) */
+        /* КАРТА РАЗВИТИЯ (чеклист) */
         .checklist-section { margin-bottom: 28px; }
         .checklist-category {
             background: #F5F0EB;
@@ -364,6 +372,7 @@
             flex: 1;
             color: #2d3f4f;
             font-weight: 500;
+            word-break: break-word;
         }
         .checklist-item input[type="checkbox"] {
             width: 24px;
@@ -371,6 +380,7 @@
             accent-color: #B5D1E8;
             border-radius: 8px;
             cursor: pointer;
+            flex-shrink: 0;
         }
         .score-summary {
             background: #E0D1F0;
@@ -382,6 +392,8 @@
             margin: 20px 0;
             font-weight: 700;
             font-size: 1.3rem;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .btn-calc {
             background: #B5D1E8;
@@ -394,10 +406,12 @@
             cursor: pointer;
             box-shadow: 0 6px 12px #b5d1e8;
             transition: 0.1s;
+            white-space: normal;
+            word-break: break-word;
         }
         .btn-calc:hover { background: #a3c0db; }
 
-        /* история */
+        /* ИСТОРИЯ */
         .history-timeline {
             background: #FAF4EF;
             border-radius: 40px;
@@ -405,15 +419,16 @@
         }
         .history-item {
             display: flex;
-            gap: 24px;
+            gap: 16px;
             padding: 16px 0;
             border-bottom: 1px solid #e6d5c9;
+            flex-wrap: wrap;
         }
         .history-date { min-width: 90px; font-weight: 700; color: #7e6b5d; }
-        .history-score { background: white; border-radius: 40px; padding: 4px 16px; font-weight: 600; color: #1f3a4e; }
-        .history-comment { flex: 1; color: #384b5a; }
+        .history-score { background: white; border-radius: 40px; padding: 4px 16px; font-weight: 600; color: #1f3a4e; white-space: nowrap; }
+        .history-comment { flex: 1; color: #384b5a; word-break: break-word; }
 
-        /* врачи */
+        /* ВРАЧИ */
         .doctor-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -428,10 +443,11 @@
             gap: 10px;
             border: 1px solid white;
         }
-        .doctor-name { font-weight: 700; font-size: 1.2rem; }
+        .doctor-name { font-weight: 700; font-size: 1.2rem; word-break: break-word; }
         .doctor-spec { color: #6f7f8e; }
+        .doctor-contact { background: white; border-radius: 60px; padding: 8px 16px; width: fit-content; word-break: break-word; }
 
-        /* анализы */
+        /* АНАЛИЗЫ */
         .file-list { list-style: none; }
         .file-item {
             background: #f6efe9;
@@ -441,76 +457,264 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         .file-item i { font-size: 1.6rem; color: #B5D1E8; margin-right: 15px; }
+        .file-item span { word-break: break-word; flex:1; }
         .upload-area {
             border: 2px dashed #B5D1E8; border-radius: 60px; padding: 36px; text-align: center; color: #6a7e91; margin: 20px 0; cursor: pointer;
         }
-        .upload-area:hover { background: #f5f2ff; }
 
-        /* календарь */
+        /* КАЛЕНДАРЬ */
         .calendar-mini {
             background: white;
             border-radius: 48px;
             padding: 24px;
         }
-        .calendar-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .calendar-header { display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         .days-of-week { display: grid; grid-template-columns: repeat(7,1fr); text-align: center; font-weight: 600; color: #8fa2b2; margin-bottom: 10px; }
-        .calendar-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 8px; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
         .cal-day {
-            background: #f5ede5; border-radius: 30px; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; font-weight: 500; color: #2c3e50; position: relative;
+            background: #f5ede5; border-radius: 30px; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; font-weight: 500; color: #2c3e50; position: relative; font-size: 0.9rem;
         }
         .cal-day.event { background: #E0D1F0; color: #39395c; font-weight: 700; }
-        .cal-day.has-note::after { content: ''; width: 6px; height: 6px; background: #F7A58F; border-radius: 50%; position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); }
+        .cal-day.has-note::after { content: ''; width: 6px; height: 6px; background: #F7A58F; border-radius: 50%; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); }
         .cal-day.photo-note::after { background: #B5D1E8; width: 8px; height: 8px; }
 
-        /* советы */
+        /* СОВЕТЫ */
         .tips-container { display: flex; flex-direction: column; gap: 18px; }
         .tip-card {
-            background: #F5F0EB; border-radius: 30px; padding: 22px; border-left: 8px solid #B5D1E8;
+            background: #F5F0EB; border-radius: 30px; padding: 22px; border-left: 8px solid #B5D1E8; word-break: break-word;
         }
 
-        /* мобильная навигация (8 пунктов) */
+        /* МОБИЛЬНАЯ НИЖНЯЯ НАВИГАЦИЯ */
         .mobile-bottom-nav {
             display: none;
             background: #f5efe9;
             border-radius: 60px 60px 0 0;
-            padding: 12px 8px;
+            padding: 8px 4px;
             margin-top: 16px;
             overflow-x: auto;
             white-space: nowrap;
-            gap: 8px;
+            gap: 4px;
             -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
+        .mobile-bottom-nav::-webkit-scrollbar { display: none; }
         .mob-item {
             display: inline-flex;
             flex-direction: column;
             align-items: center;
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: #7b8b9a;
             cursor: pointer;
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 40px;
-            min-width: 70px;
+            min-width: 60px;
         }
-        .mob-item i { font-size: 1.6rem; }
+        .mob-item i { font-size: 1.4rem; margin-bottom: 2px; }
         .mob-item.active { background: #E0D1F0; color: #3c3663; }
 
+        /* === АДАПТИВ === */
         @media screen and (max-width: 900px) {
             .sidebar { width: 100px; padding: 20px 4px; }
             .nav-item span:not(.icon) { display: none; }
             .nav-item { justify-content: center; padding: 14px 0; }
             .nav-item i { margin: 0; font-size: 2rem; }
         }
+
         @media screen and (max-width: 680px) {
             .main-layout { flex-direction: column; }
             .sidebar { display: none; }
             .mobile-bottom-nav { display: flex; }
-            .top-bar { flex-direction: column; align-items: start; }
-            .reminder-chip { align-self: flex-start; }
-            .content-area { padding: 20px; }
-            .report-miniatures { flex-direction: column; gap: 15px; }
-            .slider-knob { transform: rotate(90deg); }
+
+            .top-bar { 
+                flex-direction: column; 
+                align-items: stretch; 
+                padding: 16px; 
+                gap: 12px;
+            }
+            .profile-block { 
+                flex-wrap: wrap; 
+                gap: 12px; 
+            }
+            .avatar-large { 
+                width: 60px; 
+                height: 60px; 
+                font-size: 2rem; 
+            }
+            .name-age h1 { 
+                font-size: 1.4rem; 
+            }
+            .name-age .meta { 
+                font-size: 0.9rem; 
+            }
+            .reminder-chip { 
+                align-self: flex-start; 
+                font-size: 0.9rem; 
+                padding: 8px 16px; 
+                white-space: normal; 
+                word-break: break-word; 
+                width: 100%; 
+                justify-content: center;
+            }
+            .reminder-chip strong { 
+                white-space: nowrap; 
+            }
+
+            .content-area { 
+                padding: 16px; 
+                max-height: none; 
+                overflow-y: visible; 
+            }
+
+            .card { 
+                padding: 18px; 
+                border-radius: 30px; 
+            }
+            .card-title { 
+                font-size: 1.2rem; 
+                margin-bottom: 16px; 
+            }
+
+            .report-miniatures { 
+                flex-direction: column; 
+                gap: 15px; 
+            }
+            .slider-knob { 
+                transform: rotate(90deg); 
+                width: 40px; 
+                height: 40px; 
+                font-size: 1.4rem; 
+            }
+            .report-badge { 
+                min-width: 100px; 
+                padding: 10px; 
+                font-size: 0.9rem; 
+            }
+            .progress-highlight { 
+                font-size: 1rem; 
+                padding: 14px 18px; 
+            }
+            .activity-card { 
+                min-width: 140px; 
+                padding: 14px; 
+            }
+            .btn { 
+                width: 100%; 
+                justify-content: center; 
+                font-size: 1rem; 
+                padding: 14px 20px; 
+            }
+
+            .entry-content { 
+                padding-left: 0; 
+                margin-top: 12px; 
+            }
+            .entry-audio { 
+                margin-left: 0; 
+                width: 100%; 
+            }
+            .journal-add .btn { 
+                flex: 1 1 100%; 
+            }
+
+            .summary-period-tabs { 
+                width: 100%; 
+                justify-content: center; 
+            }
+            .period-tab { 
+                padding: 8px 16px; 
+                font-size: 0.9rem; 
+            }
+            .summary-stats { 
+                grid-template-columns: 1fr; 
+            }
+            .timeline-item { 
+                gap: 12px; 
+            }
+            .timeline-date { 
+                min-width: 70px; 
+            }
+
+            .checklist-item { 
+                gap: 10px; 
+            }
+            .checklist-item label { 
+                font-size: 0.95rem; 
+            }
+            .score-summary { 
+                font-size: 1.1rem; 
+                padding: 16px 20px; 
+            }
+            .btn-calc { 
+                width: 100%; 
+                justify-content: center; 
+            }
+
+            .doctor-list { 
+                grid-template-columns: 1fr; 
+            }
+
+            .file-item { 
+                flex-direction: column; 
+                align-items: flex-start; 
+            }
+            .file-item i { 
+                margin-bottom: 8px; 
+            }
+
+            .calendar-grid { 
+                gap: 2px; 
+            }
+            .cal-day { 
+                font-size: 0.8rem; 
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .avatar-large { 
+                width: 50px; 
+                height: 50px; 
+                font-size: 1.8rem; 
+            }
+            .name-age h1 { 
+                font-size: 1.2rem; 
+            }
+            .reminder-chip { 
+                font-size: 0.8rem; 
+                padding: 6px 12px; 
+            }
+            .reminder-chip i { 
+                font-size: 1rem; 
+            }
+
+            .card { 
+                padding: 16px; 
+            }
+            .card-title { 
+                font-size: 1.1rem; 
+            }
+
+            .mob-item { 
+                min-width: 50px; 
+                padding: 4px 8px; 
+                font-size: 0.6rem; 
+            }
+            .mob-item i { 
+                font-size: 1.2rem; 
+            }
+
+            .activity-card { 
+                min-width: 120px; 
+                padding: 12px; 
+            }
+            .btn, .btn-calc { 
+                font-size: 0.95rem; 
+                padding: 12px 16px; 
+            }
         }
 
         .page { display: none; }
@@ -551,12 +755,12 @@
                 </div>
             </div>
 
-            <!-- КОНТЕНТНАЯ ОБЛАСТЬ (8 страниц) -->
+            <!-- КОНТЕНТНАЯ ОБЛАСТЬ (8 страниц с полным содержимым) -->
             <div class="content-area">
                 <!-- ГЛАВНАЯ -->
                 <div id="dashboard" class="page">
                     <div class="compare-widget card">
-                        <div class="card-title"><i class="fas fa-chart-line" style="color:#B5D1E8;"></i> Динамика развития (на основе выписок)</div>
+                        <div class="card-title"><i class="fas fa-chart-line" style="color:#B5D1E8;"></i> Динамика развития</div>
                         <div class="report-miniatures">
                             <div class="report-badge">янв 2024</div>
                             <div class="slider-knob"><i class="fas fa-sliders-h"></i></div>
@@ -567,7 +771,7 @@
                             <path d="M0,35 Q40,20 80,32 T160,28 T240,30 T320,22" stroke="#E0D1F0" stroke-width="3" fill="none" stroke-dasharray="5 5" opacity="0.8"/>
                         </svg>
                         <div class="progress-highlight"><span>🗣️ Речевые навыки</span> <span>↑ +15%</span></div>
-                        <p style="color:#94aabb; margin-top: 10px;"><i class="fas fa-info-circle"></i> дозировка увеличена, появились новые слова</p>
+                        <p style="color:#94aabb; margin-top: 10px;"><i class="fas fa-info-circle"></i> дозировка увеличена, новые слова</p>
                     </div>
 
                     <div class="card">
@@ -622,9 +826,7 @@
                             <span class="period-tab active" id="weekTab" onclick="switchSummaryPeriod('week')">Неделя</span>
                             <span class="period-tab" id="monthTab" onclick="switchSummaryPeriod('month')">Месяц</span>
                         </div>
-                        <div class="summary-stats" id="summaryStats">
-                            <!-- будут заполнены из JS -->
-                        </div>
+                        <div class="summary-stats" id="summaryStats"></div>
                         <div class="summary-timeline" id="timeline"></div>
                     </div>
                 </div>
@@ -632,9 +834,8 @@
                 <!-- КАРТА РАЗВИТИЯ -->
                 <div id="development" class="page active-page">
                     <div class="card">
-                        <div class="card-title"><i class="fas fa-clipboard-list" style="color:#B5D1E8;"></i> Карта развития (на основе наблюдений)</div>
-                        <p style="margin-bottom: 20px; color: #5b6f7e;">Отмечайте навыки, которые уже сформированы у ребёнка. После отметки нажмите «Рассчитать».</p>
-
+                        <div class="card-title"><i class="fas fa-clipboard-list" style="color:#B5D1E8;"></i> Карта развития</div>
+                        <p style="margin-bottom: 20px; color: #5b6f7e;">Отмечайте сформированные навыки. После отметки нажмите «Рассчитать».</p>
                         <div class="checklist-section" id="checklist">
                             <div class="checklist-category">
                                 <div class="category-title"><i class="fas fa-user-circle"></i> Представления о себе и окружающих</div>
@@ -659,9 +860,9 @@
                                 <div class="checklist-item"><input type="checkbox" id="skill13"><label for="skill13">Реагирует на неречевые звуки</label></div>
                             </div>
                             <div class="checklist-category">
-                                <div class="category-title"><i class="fas fa-heart"></i> Эмоционально-поведенческие особенности</div>
+                                <div class="category-title"><i class="fas fa-heart"></i> Эмоционально-поведенческие</div>
                                 <div class="checklist-item"><input type="checkbox" id="skill14"><label for="skill14">Устанавливает зрительный контакт</label></div>
-                                <div class="checklist-item"><input type="checkbox" id="skill15"><label for="skill15">Проявляет интерес к игрушкам/занятиям</label></div>
+                                <div class="checklist-item"><input type="checkbox" id="skill15"><label for="skill15">Проявляет интерес к игрушкам</label></div>
                                 <div class="checklist-item"><input type="checkbox" id="skill16"><label for="skill16">Способен к переключению внимания</label></div>
                                 <div class="checklist-item"><input type="checkbox" id="skill17"><label for="skill17">Адекватные эмоциональные реакции</label></div>
                                 <div class="checklist-item"><input type="checkbox" id="skill18"><label for="skill18">Соблюдает правила поведения</label></div>
@@ -674,51 +875,49 @@
                                 <div class="checklist-item"><input type="checkbox" id="skill22"><label for="skill22">Участвует в дидактических играх</label></div>
                             </div>
                         </div>
-
-                        <div class="score-summary" id="scoreDisplay">
-                            <span>Итоговый балл:</span> <span id="scoreValue">0</span>
-                        </div>
+                        <div class="score-summary"><span>Итоговый балл:</span> <span id="scoreValue">0</span></div>
                         <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
                             <button class="btn-calc" onclick="calculateScore()"><i class="fas fa-calculator"></i> Рассчитать</button>
                             <button class="btn-calc" style="background:#F7E1D7;" onclick="saveHistory()"><i class="fas fa-save"></i> Сохранить результат</button>
                         </div>
-
                         <div style="background: #f3ede7; border-radius: 40px; padding: 20px; margin-top: 24px;">
                             <h4 style="margin-bottom: 10px;"><i class="fas fa-chart-line"></i> Краткий анализ</h4>
                             <p id="analysisText">Отметьте навыки и нажмите "Рассчитать".</p>
                         </div>
-
                         <div style="margin-top: 40px;">
                             <h3 class="card-title"><i class="fas fa-history"></i> Краткая история развития</h3>
                             <div class="history-timeline" id="historyContainer">
-                                <div class="history-item">
-                                    <span class="history-date">10.04.2026</span>
-                                    <span class="history-score">15 баллов</span>
-                                    <span class="history-comment">Сформированы базовые навыки, хороший прогресс в речи.</span>
-                                </div>
-                                <div class="history-item">
-                                    <span class="history-date">01.04.2026</span>
-                                    <span class="history-score">12 баллов</span>
-                                    <span class="history-comment">Появилось больше откликов на имя, улучшился контакт.</span>
-                                </div>
-                                <div class="history-item">
-                                    <span class="history-date">15.03.2026</span>
-                                    <span class="history-score">9 баллов</span>
-                                    <span class="history-comment">Начало активных жестов, реакция на запреты.</span>
-                                </div>
+                                <div class="history-item"><span class="history-date">10.04.2026</span><span class="history-score">15 баллов</span><span class="history-comment">Сформированы базовые навыки, прогресс в речи.</span></div>
+                                <div class="history-item"><span class="history-date">01.04.2026</span><span class="history-score">12 баллов</span><span class="history-comment">Больше откликов на имя, улучшился контакт.</span></div>
+                                <div class="history-item"><span class="history-date">15.03.2026</span><span class="history-score">9 баллов</span><span class="history-comment">Начало активных жестов.</span></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- ВРАЧИ -->
+                <!-- ВРАЧИ (полная версия) -->
                 <div id="doctors" class="page">
                     <div class="card">
                         <div class="card-title"><i class="fas fa-user-md" style="color:#B5D1E8;"></i> Мои врачи</div>
                         <div class="doctor-list">
-                            <div class="doctor-card"><span class="doctor-name">Елена Знаменская</span><span class="doctor-spec">невролог</span><span class="doctor-contact"><i class="fas fa-phone-alt"></i> +7 (495) 123-45-67</span><small>след. приём 15.04</small></div>
-                            <div class="doctor-card"><span class="doctor-name">Дмитрий Белых</span><span class="doctor-spec">психиатр</span><span class="doctor-contact"><i class="fas fa-phone-alt"></i> +7 (495) 765-43-21</span><small>23.05</small></div>
-                            <div class="doctor-card"><span class="doctor-name">Анна Соколова</span><span class="doctor-spec">логопед</span><span class="doctor-contact"><i class="fas fa-phone-alt"></i> +7 (903) 111-22-33</span><small>еженедельно вт, чт</small></div>
+                            <div class="doctor-card">
+                                <span class="doctor-name">Елена Знаменская</span>
+                                <span class="doctor-spec">невролог</span>
+                                <span class="doctor-contact"><i class="fas fa-phone-alt"></i> +7 (495) 123-45-67</span>
+                                <small>след. приём 15.04</small>
+                            </div>
+                            <div class="doctor-card">
+                                <span class="doctor-name">Дмитрий Белых</span>
+                                <span class="doctor-spec">психиатр</span>
+                                <span class="doctor-contact"><i class="fas fa-phone-alt"></i> +7 (495) 765-43-21</span>
+                                <small>23.05</small>
+                            </div>
+                            <div class="doctor-card">
+                                <span class="doctor-name">Анна Соколова</span>
+                                <span class="doctor-spec">логопед</span>
+                                <span class="doctor-contact"><i class="fas fa-phone-alt"></i> +7 (903) 111-22-33</span>
+                                <small>еженедельно вт, чт</small>
+                            </div>
                         </div>
                         <hr>
                         <button class="btn" style="width:100%;" id="addDoctorBtn"><i class="fas fa-plus"></i> Добавить врача</button>
@@ -745,7 +944,10 @@
                 <!-- КАЛЕНДАРЬ -->
                 <div id="calendar" class="page">
                     <div class="card calendar-mini">
-                        <div class="calendar-header"><span class="card-title">Апрель 2026</span><span><i class="fas fa-chevron-left"></i> <i class="fas fa-chevron-right"></i></span></div>
+                        <div class="calendar-header">
+                            <span class="card-title">Апрель 2026</span>
+                            <span><i class="fas fa-chevron-left"></i> <i class="fas fa-chevron-right"></i></span>
+                        </div>
                         <div class="days-of-week"><span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span></div>
                         <div class="calendar-grid">
                             <span class="cal-day"></span><span class="cal-day"></span><span class="cal-day event has-note">1</span><span class="cal-day">2</span><span class="cal-day">3</span><span class="cal-day">4</span><span class="cal-day">5</span>
@@ -760,7 +962,10 @@
                         <button class="btn btn-secondary" style="width:100%; margin-top:16px;" onclick="alert('Перейти к дневнику для добавления')"><i class="fas fa-plus"></i> Добавить заметку к дню</button>
                         <div class="card" style="margin-top:20px;">
                             <div class="card-title">Заметки на 15 апреля</div>
-                            <div class="journal-entry" style="background: #f5ede5;"><div class="entry-header"><span class="entry-icon"><i class="fas fa-microphone"></i></span><span>Аудио: новая фраза</span></div><div class="entry-audio" style="margin-left:0;"><i class="fas fa-play-circle"></i> 00:15</div></div>
+                            <div class="journal-entry" style="background: #f5ede5;">
+                                <div class="entry-header"><span class="entry-icon"><i class="fas fa-microphone"></i></span><span>Аудио: новая фраза</span></div>
+                                <div class="entry-audio" style="margin-left:0;"><i class="fas fa-play-circle"></i> 00:15</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -780,7 +985,7 @@
             </div>
         </div>
 
-        <!-- МОБИЛЬНАЯ НАВИГАЦИЯ -->
+        <!-- МОБИЛЬНАЯ НИЖНЯЯ НАВИГАЦИЯ -->
         <div class="mobile-bottom-nav">
             <div class="mob-item" data-page="dashboard"><i class="fas fa-home"></i><span>Главная</span></div>
             <div class="mob-item" data-page="journal"><i class="fas fa-book-open"></i><span>Дневник</span></div>
@@ -930,9 +1135,7 @@
         });
     });
 
-    // Устанавливаем начальную страницу (по умолчанию Карта развития активна)
-    // Но чтобы навигация соответствовала, нужно синхронизировать активный пункт меню.
-    // Уже стоит active на Карта развития, но давайте принудительно покажем её.
+    // Устанавливаем начальную страницу (Карта развития активна)
     switchPage('development');
 </script>
 </body>
