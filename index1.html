@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title>Забота · Личный кабинет родителя</title>
+    <!-- Google Fonts & simple icons (Font Awesome via CDN for scalability) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Quicksand', sans-serif;
+        }
+        body {
+            background-color: #e7dfd7; /* warm neutral */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        /* главный контейнер — имитация экрана/карточки */
+        .app-container {
+            max-width: 1280px;
+            width: 100%;
+            background-color: #FCF9F7;
+            border-radius: 48px;
+            box-shadow: 0 30px 60px -20px rgba(90, 70, 50, 0.3);
+            overflow: hidden;
+            border: 1px solid rgba(181, 209, 232, 0.3);
+            transition: all 0.2s;
+        }
+
+        /* адаптивный внутренний контейнер */
+        .app-inner {
+            display: flex;
+            flex-direction: column;
+            min-height: 600px;
+        }
+
+        /* header profile – единый для всех экранов */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 28px 16px 28px;
+            flex-wrap: wrap;
+            gap: 16px;
+            background: linear-gradient(to bottom, #FCF9F7, #faf4ef);
+        }
+        .profile-block {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+        .avatar-large {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, #B5D1E8, #E0D1F0);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 12px 18px -6px #B5D1E8;
+            border: 3px solid white;
+        }
+        .name-age h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2C3E50;
+            line-height: 1.2;
+        }
+        .name-age .meta {
+            color: #7C8A99;
+            font-size: 1rem;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .reminder-chip {
+            background-color: #F7E1D7;
+            border-radius: 40px;
+            padding: 12px 22px;
+            font-weight: 600;
+            color: #5e4a4a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px #f7e1d7;
+            white-space: nowrap;
+        }
+        .reminder-chip i { font-size: 1.2rem; }
+        .reminder-chip strong { background: white; padding: 4px 12px; border-radius: 60px; margin-left: 4px; font-weight: 700; }
+
+        /* основная зона с навигацией и контентом */
+        .main-layout {
+            display: flex;
+            flex: 1;
+            background-color: #FCF9F7;
+        }
+
+        /* боковое меню (для планшетов и выше) */
+        .sidebar {
+            width: 220px;
+            background-color: #f5efe9;
+            padding: 28px 12px;
+            border-radius: 0 40px 40px 0;
+            box-shadow: inset -1px 0 0 #ffffff, 8px 0 20px -14px #b5a6c0;
+            transition: 0.2s;
+        }
+        .nav-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 20px;
+            border-radius: 60px;
+            font-weight: 600;
+            color: #5f6e7c;
+            transition: 0.1s;
+            cursor: pointer;
+            user-select: none;
+        }
+        .nav-item i { font-size: 1.5rem; width: 32px; color: #9ab0c5; }
+        .nav-item.active {
+            background-color: #E0D1F0;
+            color: #3a3f5a;
+            box-shadow: 0 6px 14px #e0d1f0b0;
+        }
+        .nav-item.active i { color: #4a3f6e; }
+        .nav-item:hover:not(.active) { background-color: #f0e4dc; }
+
+        /* область контента */
+        .content-area {
+            flex: 1;
+            padding: 28px 30px;
+            overflow-y: auto;
+            max-height: 700px;
+            transition: 0.2s;
+        }
+
+        /* общие стили карточек */
+        .card {
+            background: white;
+            border-radius: 36px;
+            padding: 24px;
+            box-shadow: 0 12px 28px -12px rgba(181, 209, 232, 0.4);
+            border: 1px solid #ffffff;
+            margin-bottom: 28px;
+        }
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2e4459;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* дашборд специфика */
+        .compare-widget {
+            background: #f3ede7;
+            border-radius: 40px;
+            padding: 22px;
+            margin-bottom: 24px;
+        }
+        .report-miniatures {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            margin: 20px 0 18px;
+        }
+        .report-badge {
+            background: white;
+            padding: 14px 18px;
+            border-radius: 60px;
+            font-weight: 700;
+            color: #3b4b5e;
+            box-shadow: 0 4px 10px #b5d1e880;
+            min-width: 120px;
+            text-align: center;
+        }
+        .slider-knob {
+            background: #E0D1F0;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #4f4370;
+            border: 3px solid white;
+            box-shadow: 0 8px 14px #cbb5e0;
+        }
+        .graph-preview {
+            margin: 20px 0 10px;
+        }
+        .progress-highlight {
+            background: #E0D1F0;
+            border-radius: 60px;
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #314e63;
+        }
+        .activity-horizontal {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding: 8px 4px 20px 4px;
+        }
+        .activity-card {
+            background: white;
+            border-radius: 30px;
+            padding: 18px 22px;
+            min-width: 160px;
+            box-shadow: 0 8px 16px #f0e2d8;
+            border: 1px solid #f8ede5;
+        }
+
+        /* кнопки действий */
+        .action-buttons {
+            display: flex;
+            gap: 18px;
+            margin: 24px 0 10px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 16px 28px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: #B5D1E8;
+            color: #2a4052;
+            box-shadow: 0 10px 16px #b5d1e8b0;
+            cursor: pointer;
+            transition: 0.1s;
+            border: 1px solid #ffffff80;
+        }
+        .btn-secondary {
+            background: #F7E1D7;
+            color: #604646;
+            box-shadow: 0 10px 16px #f7e1d7;
+        }
+        .btn:hover { transform: scale(0.98); filter: brightness(0.98); }
+
+        /* таблицы/списки врачей */
+        .doctor-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 18px;
+            margin-top: 10px;
+        }
+        .doctor-card {
+            background: #faf2ec;
+            border-radius: 32px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border: 1px solid white;
+        }
+        .doctor-name { font-weight: 700; font-size: 1.2rem; }
+        .doctor-spec { color: #6f7f8e; }
+        .doctor-contact { background: white; border-radius: 60px; padding: 8px 16px; display: inline-block; width: fit-content; }
+
+        /* файлы анализов */
+        .file-list {
+            list-style: none;
+        }
+        .file-item {
+            background: #f6efe9;
+            border-radius: 40px;
+            padding: 16px 22px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .file-item i { font-size: 1.6rem; color: #B5D1E8; margin-right: 15px;}
+
+        /* календарь (упрощённый) */
+        .calendar-mini {
+            background: white;
+            border-radius: 48px;
+            padding: 24px;
+        }
+        .calendar-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .days-of-week { display: grid; grid-template-columns: repeat(7,1fr); text-align: center; font-weight: 600; color: #8fa2b2; margin-bottom: 10px; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 8px; }
+        .cal-day {
+            background: #f5ede5; border-radius: 30px; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; font-weight: 500; color: #2c3e50;
+        }
+        .cal-day.event {
+            background: #E0D1F0; color: #39395c; font-weight: 700; box-shadow: 0 4px 8px #d8c0ec; position: relative;
+        }
+        .cal-day.event::after { content: ''; width: 6px; height: 6px; background: #b483d6; border-radius: 50%; position: absolute; bottom: 6px; }
+
+        /* советы */
+        .tips-container {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        .tip-card {
+            background: #F5F0EB;
+            border-radius: 30px;
+            padding: 22px;
+            border-left: 8px solid #B5D1E8;
+        }
+
+        /* мобильная навигация (снизу) — скрыта на десктопе */
+        .mobile-bottom-nav {
+            display: none;
+            background: #f5efe9;
+            border-radius: 60px 60px 0 0;
+            padding: 12px 16px;
+            justify-content: space-around;
+            margin-top: 16px;
+        }
+        .mob-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #7b8b9a;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 40px;
+        }
+        .mob-item i { font-size: 1.6rem; }
+        .mob-item.active { background: #E0D1F0; color: #3c3663; }
+
+        /* адаптивность */
+        @media screen and (max-width: 900px) {
+            .sidebar { width: 100px; padding: 20px 6px; }
+            .nav-item span:not(.icon) { display: none; }
+            .nav-item { justify-content: center; padding: 14px 0; }
+            .nav-item i { margin: 0; font-size: 2rem; }
+        }
+        @media screen and (max-width: 680px) {
+            .main-layout { flex-direction: column; }
+            .sidebar { display: none; } /* скрываем боковое, показываем нижнее меню */
+            .mobile-bottom-nav { display: flex; }
+            .top-bar { flex-direction: column; align-items: start; }
+            .reminder-chip { align-self: flex-start; }
+            .content-area { padding: 20px; }
+            .report-miniatures { flex-direction: column; gap: 15px; }
+            .slider-knob { transform: rotate(90deg); }
+        }
+
+        /* скрытие/показ разделов */
+        .page { display: none; }
+        .page.active-page { display: block; }
+
+        /* мелкие детали */
+        i { color: inherit; }
+        .upload-area {
+            border: 2px dashed #B5D1E8; border-radius: 60px; padding: 36px; text-align: center; color: #6a7e91; margin: 20px 0; cursor: pointer;
+        }
+        .upload-area:hover { background: #f5f2ff; }
+        hr { border: 1px solid #edd9cd; margin: 20px 0; opacity: 0.5; }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <div class="app-inner">
+        <!-- шапка общая -->
+        <div class="top-bar">
+            <div class="profile-block">
+                <div class="avatar-large">😇</div>
+                <div class="name-age">
+                    <h1>Миша, 4 года 2 мес</h1>
+                    <div class="meta"><span>🔹 РАС, уровень 1</span> <span>🏅 новые навыки: 3</span></div>
+                </div>
+            </div>
+            <div class="reminder-chip">
+                <i class="fas fa-calendar-alt"></i> ближайший приём <strong>15 апр, невролог</strong>
+            </div>
+        </div>
+
+        <!-- основной макет с меню и страницами -->
+        <div class="main-layout">
+            <!-- боковое меню (для планшетов/десктопов) -->
+            <div class="sidebar">
+                <div class="nav-items">
+                    <div class="nav-item active" data-page="dashboard"><i class="fas fa-home"></i> <span>Главная</span></div>
+                    <div class="nav-item" data-page="doctors"><i class="fas fa-user-md"></i> <span>Врачи</span></div>
+                    <div class="nav-item" data-page="analyses"><i class="fas fa-flask"></i> <span>Анализы</span></div>
+                    <div class="nav-item" data-page="calendar"><i class="fas fa-calendar-check"></i> <span>Календарь</span></div>
+                    <div class="nav-item" data-page="tips"><i class="fas fa-lightbulb"></i> <span>Советы</span></div>
+                </div>
+            </div>
+
+            <!-- контентная область (переключаемые страницы) -->
+            <div class="content-area">
+                <!-- СТРАНИЦА ГЛАВНАЯ (dashboard) -->
+                <div id="dashboard" class="page active-page">
+                    <div class="compare-widget card">
+                        <div class="card-title"><i class="fas fa-chart-line" style="color:#B5D1E8;"></i> Динамика развития (на основе выписок)</div>
+                        <div class="report-miniatures">
+                            <div class="report-badge">янв 2024</div>
+                            <div class="slider-knob"><i class="fas fa-sliders-h"></i></div>
+                            <div class="report-badge">апр 2024</div>
+                        </div>
+                        <div class="graph-preview">
+                            <svg width="100%" height="60" viewBox="0 0 320 40" preserveAspectRatio="none">
+                                <path d="M0,30 Q40,10 80,25 T160,20 T240,25 T320,15" stroke="#B5D1E8" stroke-width="4" fill="none" stroke-linecap="round"/>
+                                <path d="M0,35 Q40,20 80,32 T160,28 T240,30 T320,22" stroke="#E0D1F0" stroke-width="3" fill="none" stroke-dasharray="5 5" opacity="0.8"/>
+                            </svg>
+                        </div>
+                        <div class="progress-highlight">
+                            <span>🗣️ Речевые навыки</span> <span>↑ +15%</span>
+                        </div>
+                        <p style="color:#94aabb; margin-top: 10px;"><i class="fas fa-info-circle"></i> дозировка увеличена, появились новые слова</p>
+                    </div>
+
+                    <!-- Последние записи -->
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-clock"></i> Последние записи</div>
+                        <div class="activity-horizontal">
+                            <div class="activity-card"><i class="fas fa-smile" style="font-size: 2rem; color:#E0D1F0;"></i> <strong>Настроение:</strong> спокойное <br> <small>16:20</small></div>
+                            <div class="activity-card"><i class="fas fa-moon" style="font-size: 2rem; color:#B5D1E8;"></i> <strong>Сон:</strong> 1ч 40м <br> <small>после обеда</small></div>
+                            <div class="activity-card"><i class="fas fa-file-pdf" style="font-size: 2rem; color:#F7E1D7;"></i> <strong>Выписка</strong> загружена <br> <small>вчера</small></div>
+                        </div>
+                    </div>
+
+                    <!-- Быстрые действия -->
+                    <div class="action-buttons">
+                        <button class="btn" id="addEntryBtn"><i class="fas fa-plus-circle"></i> Добавить запись</button>
+                        <button class="btn btn-secondary" id="scanBtn"><i class="fas fa-camera"></i> Сканировать выписку</button>
+                    </div>
+                </div>
+
+                <!-- СТРАНИЦА ВРАЧИ -->
+                <div id="doctors" class="page">
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-user-md" style="color:#B5D1E8;"></i> Мои врачи</div>
+                        <div class="doctor-list">
+                            <div class="doctor-card"><span class="doctor-name">Елена Знаменская</span><span class="doctor-spec">невролог</span><span class="doctor-contact"><i class="fas fa-phone-alt"></i> +7 (495) 123-45-67</span><small>след. приём 15.04</small></div>
+                            <div class="doctor-card"><span class="doctor-name">Дмитрий Белых</span><span class="doctor-spec">психиатр</span><span class="doctor-contact"><i class="fas fa-phone-alt"></i> +7 (495) 765-43-21</span><small>23.05</small></div>
+                            <div class="doctor-card"><span class="doctor-name">Анна Соколова</span><span class="doctor-spec">логопед</span><span class="doctor-contact"><i class="fas fa-phone-alt"></i> +7 (903) 111-22-33</span><small>еженедельно вт, чт</small></div>
+                        </div>
+                        <hr>
+                        <button class="btn" style="width:100%;" id="addDoctorBtn"><i class="fas fa-plus"></i> Добавить врача</button>
+                    </div>
+                </div>
+
+                <!-- СТРАНИЦА АНАЛИЗЫ -->
+                <div id="analyses" class="page">
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-flask"></i> Загруженные анализы</div>
+                        <ul class="file-list">
+                            <li class="file-item"><i class="fas fa-file-pdf"></i> <span>Общий анализ крови (10.03.2026)</span> <i class="fas fa-download" style="cursor:pointer;" onclick="alert('Скачивание (демо)')"></i></li>
+                            <li class="file-item"><i class="fas fa-file-image"></i> <span>ЭЭГ заключение (02.02.2026)</span> <i class="fas fa-download" onclick="alert('Скачивание (демо)')"></i></li>
+                            <li class="file-item"><i class="fas fa-file-pdf"></i> <span>Выписка невролога (15.01.2026)</span> <i class="fas fa-download" onclick="alert('Скачивание (демо)')"></i></li>
+                        </ul>
+                        <div class="upload-area" onclick="document.getElementById('fileUpload').click();">
+                            <i class="fas fa-cloud-upload-alt" style="font-size: 2.5rem; color:#B5D1E8;"></i>
+                            <p>Нажмите, чтобы загрузить новый анализ или выписку</p>
+                            <input type="file" id="fileUpload" style="display:none;" onchange="alert('Файл выбран: ' + this.files[0]?.name)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- СТРАНИЦА КАЛЕНДАРЬ -->
+                <div id="calendar" class="page">
+                    <div class="card calendar-mini">
+                        <div class="calendar-header">
+                            <span class="card-title">Апрель 2026</span>
+                            <span><i class="fas fa-chevron-left"></i> <i class="fas fa-chevron-right"></i></span>
+                        </div>
+                        <div class="days-of-week">
+                            <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span>
+                        </div>
+                        <div class="calendar-grid">
+                            <!-- пример: 1 апреля ср -->
+                            <span class="cal-day"></span><span class="cal-day"></span><span class="cal-day event">1</span><span class="cal-day">2</span><span class="cal-day">3</span><span class="cal-day">4</span><span class="cal-day">5</span>
+                            <span class="cal-day">6</span><span class="cal-day">7</span><span class="cal-day">8</span><span class="cal-day">9</span><span class="cal-day">10</span><span class="cal-day">11</span><span class="cal-day">12</span>
+                            <span class="cal-day">13</span><span class="cal-day">14</span><span class="cal-day event">15</span><span class="cal-day">16</span><span class="cal-day">17</span><span class="cal-day">18</span><span class="cal-day">19</span>
+                            <span class="cal-day">20</span><span class="cal-day">21</span><span class="cal-day">22</span><span class="cal-day">23</span><span class="cal-day">24</span><span class="cal-day">25</span><span class="cal-day">26</span>
+                            <span class="cal-day">27</span><span class="cal-day">28</span><span class="cal-day">29</span><span class="cal-day">30</span><span class="cal-day"></span><span class="cal-day"></span><span class="cal-day"></span>
+                        </div>
+                        <p style="margin-top: 20px;"><i class="fas fa-circle" style="color:#E0D1F0;"></i> 15 апреля – невролог</p>
+                        <button class="btn btn-secondary" style="width:100%;" onclick="alert('Добавить событие (демо)')"><i class="fas fa-plus"></i> Запланировать приём</button>
+                    </div>
+                </div>
+
+                <!-- СТРАНИЦА СОВЕТЫ -->
+                <div id="tips" class="page">
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-lightbulb" style="color:#F7E1D7;"></i> Советы для родителей</div>
+                        <div class="tips-container">
+                            <div class="tip-card"><strong>✨ Визуальное расписание</strong> – помогает снизить тревожность. Используйте карточки.</div>
+                            <div class="tip-card"><strong>🧘 Дыхательные паузы</strong> – если чувствуете перегруз, сделайте 5 глубоких вдохов.</div>
+                            <div class="tip-card"><strong>📝 Фиксируйте даже маленькие победы</strong> – это мотивирует.</div>
+                            <div class="tip-card"><strong>👨‍👩‍👦 Заручитесь поддержкой</strong> – группы родителей РАС в вашем городе.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- нижняя навигация для мобильных -->
+        <div class="mobile-bottom-nav">
+            <div class="mob-item active" data-page="dashboard"><i class="fas fa-home"></i><span>Главная</span></div>
+            <div class="mob-item" data-page="doctors"><i class="fas fa-user-md"></i><span>Врачи</span></div>
+            <div class="mob-item" data-page="analyses"><i class="fas fa-flask"></i><span>Анализы</span></div>
+            <div class="mob-item" data-page="calendar"><i class="fas fa-calendar-check"></i><span>Календарь</span></div>
+            <div class="mob-item" data-page="tips"><i class="fas fa-lightbulb"></i><span>Советы</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- скрипт для переключения страниц и имитации кликов -->
+<script>
+    // переключение страниц (и боковое меню, и мобильное)
+    const pages = document.querySelectorAll('.page');
+    const navItems = document.querySelectorAll('.nav-item');
+    const mobItems = document.querySelectorAll('.mob-item');
+
+    function switchPage(pageId) {
+        pages.forEach(p => p.classList.remove('active-page'));
+        document.getElementById(pageId).classList.add('active-page');
+
+        // обновить активное состояние в боковом меню
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.dataset.page === pageId) item.classList.add('active');
+        });
+        mobItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.dataset.page === pageId) item.classList.add('active');
+        });
+    }
+
+    navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchPage(item.dataset.page);
+        });
+    });
+
+    mobItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault();
+            switchPage(item.dataset.page);
+        });
+    });
+
+    // Демо-клики на кнопках (имитация действий)
+    document.getElementById('addEntryBtn')?.addEventListener('click', ()=>{
+        alert('Форма добавления записи (демо). Здесь можно отметить настроение, сон, навыки.');
+    });
+    document.getElementById('scanBtn')?.addEventListener('click', ()=>{
+        alert('Камера для сканирования выписки (демо).');
+    });
+    document.getElementById('addDoctorBtn')?.addEventListener('click', ()=>{
+        alert('Добавление нового врача (демо).');
+    });
+    // также можно везде использовать onclick в html, но добавим универсальность
+    // обработка загрузки файла уже есть в input
+
+    // дополнительно при клике на "добавить запись" где-то ещё
+    // все хорошо
+</script>
+<!-- небольшие дополнительные улучшения: уведомление на иконки загрузки -->
+</body>
+</html>
